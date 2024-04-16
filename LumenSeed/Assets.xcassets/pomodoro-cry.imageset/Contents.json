@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "DALL_E_2024-04-05_11.48.26_-_Create_an_image_of_the_green__round_character_with_a_leaf_on_its_head__expressing_extreme_sadness._The_character_should_have_its_eyes_tightly_closed_w-removebg-preview 2.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "DALL_E_2024-04-05_11.48.26_-_Create_an_image_of_the_green__round_character_with_a_leaf_on_its_head__expressing_extreme_sadness._The_character_should_have_its_eyes_tightly_closed_w-removebg-preview 1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "DALL_E_2024-04-05_11.48.26_-_Create_an_image_of_the_green__round_character_with_a_leaf_on_its_head__expressing_extreme_sadness._The_character_should_have_its_eyes_tightly_closed_w-removebg-preview.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
