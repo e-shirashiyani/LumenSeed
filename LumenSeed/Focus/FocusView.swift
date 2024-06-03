@@ -24,6 +24,7 @@ struct FocusView: View {
     @State private var timeRemaining: Int?
     @State private var selectedTimerType: String = "Pomo"
     @State private var audioPlayer: AVAudioPlayer?
+    @State private var showLottieAnimation: Bool = false
     @State private var activeTaskID: UUID?
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -178,8 +179,19 @@ struct FocusView: View {
                     }
                     .padding()
                 }
-            }
-        }
+//            }
+//        }
+        if showLottieAnimation {
+                            LottieView(filename: "finish")
+                                .frame(width: 200, height: 200)
+                                .onAppear {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        self.showLottieAnimation = false
+                                    }
+                                }
+                        }
+                    }
+                }
         .onReceive(timer) { _ in
             guard isActive, let remaining = timeRemaining, remaining > 0 else { return }
             self.timeRemaining! -= 1
@@ -190,6 +202,10 @@ struct FocusView: View {
                 // Update the active task's pomodoroDoneCount
                 if let activeTaskID = activeTaskID, let index = tasks.firstIndex(where: { $0.id == activeTaskID }) {
                     tasks[index].pomodoroDoneCount += 1
+                    if tasks[index].pomodoroDoneCount >= tasks[index].pomodoroCount {
+                                            self.showLottieAnimation = true
+                                        }
+
                 }
             }
         }

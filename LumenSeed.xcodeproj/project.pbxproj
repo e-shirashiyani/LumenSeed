@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		B819BBEE2C0E1E2C00B24644 /* SwipeableTaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B819BBED2C0E1E2C00B24644 /* SwipeableTaskCardView.swift */; };
+		B819BBF12C0E3F3500B24644 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B819BBF02C0E3F3400B24644 /* LottieView.swift */; };
+		B819BBF62C0E407E00B24644 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = B819BBF52C0E407E00B24644 /* Lottie */; };
+		B819BBFA2C0E437900B24644 /* finish.json in Resources */ = {isa = PBXBuildFile; fileRef = B819BBF92C0E437800B24644 /* finish.json */; };
 		B82DB3112BBDE7B900E2D910 /* LumenSeedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82DB3102BBDE7B900E2D910 /* LumenSeedApp.swift */; };
 		B82DB3132BBDE7B900E2D910 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82DB3122BBDE7B900E2D910 /* ContentView.swift */; };
 		B82DB3152BBDE7B900E2D910 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82DB3142BBDE7B900E2D910 /* Item.swift */; };
@@ -73,6 +76,8 @@
 
 /* Begin PBXFileReference section */
 		B819BBED2C0E1E2C00B24644 /* SwipeableTaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableTaskCardView.swift; sourceTree = "<group>"; };
+		B819BBF02C0E3F3400B24644 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		B819BBF92C0E437800B24644 /* finish.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = finish.json; sourceTree = "<group>"; };
 		B82DB30D2BBDE7B900E2D910 /* LumenSeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LumenSeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B82DB3102BBDE7B900E2D910 /* LumenSeedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumenSeedApp.swift; sourceTree = "<group>"; };
 		B82DB3122BBDE7B900E2D910 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -128,6 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B819BBF62C0E407E00B24644 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +154,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B819BBF42C0E407E00B24644 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B82DB3042BBDE7B900E2D910 = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +169,7 @@
 				B82DB3222BBDE7BB00E2D910 /* LumenSeedTests */,
 				B82DB32C2BBDE7BB00E2D910 /* LumenSeedUITests */,
 				B82DB30E2BBDE7B900E2D910 /* Products */,
+				B819BBF42C0E407E00B24644 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -247,6 +261,7 @@
 				B8C32A162BCA6E4900C7CF8E /* PrimaryButtonStyle.swift */,
 				B87FE7042BD0F74B00EC1E85 /* CapsuleButtonStyle.swift */,
 				B819BBED2C0E1E2C00B24644 /* SwipeableTaskCardView.swift */,
+				B819BBF02C0E3F3400B24644 /* LottieView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -263,6 +278,7 @@
 		B87FE6AC2BCE87E700EC1E85 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				B819BBF92C0E437800B24644 /* finish.json */,
 				B82DB3142BBDE7B900E2D910 /* Item.swift */,
 				B82DB3122BBDE7B900E2D910 /* ContentView.swift */,
 				B87FE6A52BCE693100EC1E85 /* bell.wav */,
@@ -337,8 +353,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				B819BBF32C0E401600B24644 /* PBXTargetDependency */,
 			);
 			name = LumenSeed;
+			packageProductDependencies = (
+				B819BBF52C0E407E00B24644 /* Lottie */,
+			);
 			productName = LumenSeed;
 			productReference = B82DB30D2BBDE7B900E2D910 /* LumenSeed.app */;
 			productType = "com.apple.product-type.application";
@@ -432,6 +452,7 @@
 			files = (
 				B87FE6A62BCE693100EC1E85 /* bell.wav in Resources */,
 				B82DB31A2BBDE7BB00E2D910 /* Preview Assets.xcassets in Resources */,
+				B819BBFA2C0E437900B24644 /* finish.json in Resources */,
 				B82DB3172BBDE7BB00E2D910 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -464,6 +485,7 @@
 				B819BBEE2C0E1E2C00B24644 /* SwipeableTaskCardView.swift in Sources */,
 				B82DB3502BBE8B0F00E2D910 /* ProgressCircleView.swift in Sources */,
 				B82DB3472BBDF49300E2D910 /* AppColors.swift in Sources */,
+				B819BBF12C0E3F3500B24644 /* LottieView.swift in Sources */,
 				B87FE6B72BCE892000EC1E85 /* TagSelectionView.swift in Sources */,
 				B87FE6B52BCE890F00EC1E85 /* Tag.swift in Sources */,
 				B8C32A0D2BC863EB00C7CF8E /* UsageView.swift in Sources */,
@@ -519,6 +541,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B819BBF32C0E401600B24644 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = B819BBF22C0E401600B24644 /* Lottie */;
+		};
 		B82DB3212BBDE7BB00E2D910 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B82DB30C2BBDE7B900E2D910 /* LumenSeed */;
@@ -838,6 +864,19 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B819BBF22C0E401600B24644 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B819BBEF2C0E38C100B24644 /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
+		};
+		B819BBF52C0E407E00B24644 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B819BBEF2C0E38C100B24644 /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B82DB3052BBDE7B900E2D910 /* Project object */;
 }
