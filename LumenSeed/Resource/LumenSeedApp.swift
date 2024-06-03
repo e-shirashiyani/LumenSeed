@@ -48,6 +48,7 @@ struct LumenSeedApp: App {
     var body: some Scene {
         WindowGroup {
             FocusView()
+                .tint(.white)
                 .onAppear(perform: setupLifecycleObserver)
                 .preferredColorScheme(.light)
 

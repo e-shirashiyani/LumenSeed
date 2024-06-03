@@ -8,8 +8,11 @@
 import SwiftUI
 struct Task: Identifiable {
     let id = UUID()
+    var title: String
     var description: String
-    var category: String
-    var tagColor: Color
+    var status: String
+    var tags: Set<Tag>
     var pomodoroCount: Int
+    var pomodoroDoneCount: Int
+    var isDone: Bool
 }

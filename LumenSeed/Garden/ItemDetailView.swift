@@ -12,7 +12,6 @@ import SwiftUI
 struct ItemDetailView: View {
     var userPoints: Int = 120
     var item: GardenItem
-    @State private var navigationTrigger: NavigationDestination?
     @State private var showSuccessView = false
     @ObservedObject var viewModel: ItemDetailViewModel
 

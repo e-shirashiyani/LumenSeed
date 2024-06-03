@@ -7,8 +7,8 @@
 
 import SwiftUI
 struct AppColors {
-    static let primary = Color("green")
-    static let secondry = Color("secondry")
+    static let primary = Color("lumenGreen")
+    static let secondry = Color("lumenSecondary")
     static let black = Color("black")
     static let background = Color("Background")
     // Add more colors as needed

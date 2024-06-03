@@ -15,10 +15,13 @@ struct AddTaskSheetView: View {
     @State private var tagColor: Color = .red
     @State private var showingCategoryPicker = false
     @State private var showingColorPicker = false
+    @State private var tags: [Tag] = []
+    @State private var selectedTags: Set<Tag> = Set()
+    @State private var showingTags = false
     @Environment(\.presentationMode) var presentationMode
     @Binding var tasks: [Task]
     
-    let categories = ["Work", "Study", "Personal", "Exercise"] // Example categories
+    let categories = ["Work", "Study", "Personal", "Exercise"]
     
     var body: some View {
         NavigationView {
@@ -33,7 +36,7 @@ struct AddTaskSheetView: View {
                     .background(.gray.opacity(0.1))
                     .shadow(color: Color.black.opacity(0.08), radius: 60, x: 0.0, y: 16)
                     .cornerRadius(8)
-                    .accentColor(Color("AccentColor"))
+                    .accentColor(Color.lumenGreen)
                     .textFieldStyle(.roundedBorder)
                 
                 Text("Description")
@@ -45,24 +48,11 @@ struct AddTaskSheetView: View {
                     .background(.gray.opacity(0.1))
                     .shadow(color: Color.black.opacity(0.08), radius: 60, x: 0.0, y: 16)
                     .cornerRadius(8)
-                    .accentColor(Color("AccentColor"))
+                    .accentColor(Color.lumenGreen)
                     .textFieldStyle(.roundedBorder)
                 
-                Button("Tags") {
-                    showingCategoryPicker = true
-                }
-                .padding(.all,8)
-                .padding(.horizontal,15)
-                .font(.system(size: 16))
-                .foregroundStyle(.secondry)
-                .background(
-                    Capsule()
-                        .foregroundStyle(.gray.opacity(0.1))
-                )
-                .actionSheet(isPresented: $showingCategoryPicker) {
-                    ActionSheet(title: Text("Select Category"), buttons: categoryButtons())
-                }
-                .padding(.top)
+                TagListView(selectedTags: $selectedTags, tags: $tags)
+                .padding(.top,8)
                 
                 HStack {
                     Text("Est Pomodoros")
@@ -70,42 +60,27 @@ struct AddTaskSheetView: View {
                         Text("\(estimatedPomodoros)")
                             .frame(minWidth: 36)
                     }
-                    .padding()
                 }
+                .padding(.all,4)
                 
-                
-                
-//                Button("Select Tag Color") {
-//                    showingColorPicker = true
-//                }
-//                .padding()
-//                .foregroundColor(tagColor)
-//                .sheet(isPresented: $showingColorPicker) {
-//                    ColorPicker("Pick a Tag Color", selection: $tagColor, supportsOpacity: false)
-//                        .padding()
-//                }
                 
                 Spacer()
                 
-                HStack {
-                    Button("Cancel") {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                    .padding()
-                    
-                    Spacer()
-                    
-                    Button("Save") {
-                        // Logic to save the task with category and tag color
-                        let newTask = Task(description: taskDescription, category:selectedCategory, tagColor: tagColor, pomodoroCount: estimatedPomodoros)
+            }
+            .navigationBarTitle("Task", displayMode: .inline)
+            .navigationBarHidden(false)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        let newTask = 
+                        Task(title: taskTitle, description: taskDescription, status: "Pending", tags: selectedTags, pomodoroCount: estimatedPomodoros, pomodoroDoneCount: 0, isDone: false)
                         self.tasks.append(newTask)
                         self.presentationMode.wrappedValue.dismiss()
                     }
-                    .padding()
+                    .foregroundStyle(.lumenSecondary)
+                    
                 }
             }
-            .navigationBarTitle("", displayMode: .inline)
-            .navigationBarHidden(true)
         }
         .padding()
     }
@@ -122,5 +97,5 @@ struct AddTaskSheetView: View {
 }
 
 #Preview {
-    AddTaskSheetView(estimatedPomodoros: .constant(2), tasks: .constant([Task(description: "", category: "", tagColor: .brown, pomodoroCount: 4)]))
+    AddTaskSheetView(estimatedPomodoros: .constant(2), tasks: .constant([Task(title: "tesla", description: "implement button", status: "pending", tags: [], pomodoroCount: 2, pomodoroDoneCount: 0, isDone: false)]))
 }
