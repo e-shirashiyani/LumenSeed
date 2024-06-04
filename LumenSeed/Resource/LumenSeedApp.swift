@@ -13,17 +13,19 @@ import AVFAudio
 struct LumenSeedApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
+    @State private var showLaunchScreen = true
+
     init() {
         setupAudioSession()
 
-            let tabBarAppearance = UITabBarAppearance()
-            tabBarAppearance.backgroundColor = UIColor(named: "black")
-            UITabBar.appearance().standardAppearance = tabBarAppearance
-            if #available(iOS 15.0, *) {
-                UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-            }
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.backgroundColor = UIColor(named: "black")
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        if #available(iOS 15.0, *) {
+            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         }
-    
+    }
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -36,34 +38,48 @@ struct LumenSeedApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+
     func setupAudioSession() {
-            let audioSession = AVAudioSession.sharedInstance()
-            do {
-                try audioSession.setCategory(.playback, mode: .default, options: [.mixWithOthers, .allowAirPlay])
-                try audioSession.setActive(true)
-            } catch {
-                print("Failed to set up audio session: \(error)")
-            }
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.playback, mode: .default, options: [.mixWithOthers, .allowAirPlay])
+            try audioSession.setActive(true)
+        } catch {
+            print("Failed to set up audio session: \(error)")
         }
+    }
+
     var body: some Scene {
         WindowGroup {
-            FocusView()
-                .tint(.white)
-                .onAppear(perform: setupLifecycleObserver)
-                .preferredColorScheme(.light)
-
+            Group {
+                if showLaunchScreen {
+                    LaunchScreenView()
+                } else {
+                    FocusView()
+                        .tint(.white)
+                        .onAppear(perform: setupLifecycleObserver)
+                        .preferredColorScheme(.light)
+                }
+            }
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    withAnimation {
+                        self.showLaunchScreen = false
+                    }
+                }
+            }
         }
         .modelContainer(sharedModelContainer)
     }
+
     func setupLifecycleObserver() {
-            NotificationCenter.default.addObserver(forName: UIScene.didEnterBackgroundNotification, object: nil, queue: .main) { _ in
-                print("Moving to the background!")
-
-            }
-
-            NotificationCenter.default.addObserver(forName: UIScene.willEnterForegroundNotification, object: nil, queue: .main) { _ in
-                print("Back to the foreground!")
-                cancelNotification()
-            }
+        NotificationCenter.default.addObserver(forName: UIScene.didEnterBackgroundNotification, object: nil, queue: .main) { _ in
+            print("Moving to the background!")
         }
+
+        NotificationCenter.default.addObserver(forName: UIScene.willEnterForegroundNotification, object: nil, queue: .main) { _ in
+            print("Back to the foreground!")
+            cancelNotification()
+        }
+    }
 }

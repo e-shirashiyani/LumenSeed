@@ -10,16 +10,20 @@ import SwiftUI
 struct LaunchScreenView: View {
     var body: some View {
         VStack {
-            Spacer()
-            HStack {
+            ZStack {
+                Color.white.ignoresSafeArea()
+
                 Spacer()
-                Image("logo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 400, height: 400)
+                HStack {
+                    Spacer()
+                    Image("logo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 400, height: 400)
+                    Spacer()
+                }
                 Spacer()
             }
-            Spacer()
         }
     }
 }

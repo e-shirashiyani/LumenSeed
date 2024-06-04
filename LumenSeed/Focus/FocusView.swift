@@ -12,7 +12,7 @@ struct FocusView: View {
     @State private var selectedTimer: Int = 25 * 60
     @State private var isActive: Bool = false
     @State private var showingAddTaskSheet = false
-    @State private var estimatedPomodoros = 1
+    @State private var estimatedPomodoros = 0
     @State private var taskName = "Time to focus!"
     @State private var tasks: [Task] = []
     @State private var showingSettings = false
@@ -114,7 +114,7 @@ struct FocusView: View {
                                     .font(.system(size: 28))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 6)
-                                            .stroke(.lumenSecondary, lineWidth: 2)
+                                            .stroke(.lumenSecondary.opacity(0.8), lineWidth: 2)
                                     )
                             }
                         } else if showContinueAndStopButtons {
@@ -247,6 +247,9 @@ struct FocusView: View {
                     if tasks[index].pomodoroDoneCount >= tasks[index].pomodoroCount {
                         self.showLottieAnimation = true
                     }
+                } else {
+                    // Increment estimatedPomodoros if no task is selected
+                    self.estimatedPomodoros += 1
                 }
                 self.showPauseButton = false
                 self.showContinueAndStopButtons = false
