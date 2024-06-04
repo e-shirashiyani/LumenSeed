@@ -8,8 +8,6 @@
 import SwiftUI
 import AVFoundation
 
-import SwiftUI
-
 struct FocusView: View {
     @State private var selectedTimer: Int = 25 * 60
     @State private var isActive: Bool = false
@@ -26,6 +24,9 @@ struct FocusView: View {
     @State private var audioPlayer: AVAudioPlayer?
     @State private var showLottieAnimation: Bool = false
     @State private var activeTaskID: UUID?
+    @State private var isPaused: Bool = false
+    @State private var showPauseButton: Bool = false
+    @State private var showContinueAndStopButtons: Bool = false
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var timerTypes: [(String, Int)] {
@@ -103,17 +104,56 @@ struct FocusView: View {
                             .padding()
                             .padding(.top)
                         
-                        Button(action: {
-                            self.startTimer()
-                        }) {
-                            Text(isActive ? "STOP" : "START")
-                                .foregroundColor(Color.white)
-                                .frame(width: 200, height: 60)
-                                .font(.system(size: 28))
-                                .background(AppColors.primary)
-                                .cornerRadius(6)
+                        if showPauseButton {
+                            Button(action: {
+                                self.pauseTimer()
+                            }) {
+                                Text("PAUSE")
+                                    .foregroundColor(.lumenSecondary.opacity(0.8))
+                                    .frame(width: 200, height: 60)
+                                    .font(.system(size: 28))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .stroke(.lumenSecondary, lineWidth: 2)
+                                    )
+                            }
+                        } else if showContinueAndStopButtons {
+                            HStack(spacing: 20) {
+                                Button(action: {
+                                    self.continueTimer()
+                                }) {
+                                    Text("CONTINUE")
+                                        .foregroundColor(Color.white)
+                                        .frame(width: 150, height: 60)
+                                        .font(.system(size: 26))
+                                        .background(AppColors.primary)
+                                        .cornerRadius(6)
+                                }
+                                
+                                Button(action: {
+                                    self.stopTimer()
+                                }) {
+                                    Text("STOP")
+                                        .foregroundColor(Color.white)
+                                        .frame(width: 100, height: 60)
+                                        .font(.system(size: 26))
+                                        .background(.lumenSecondary.opacity(0.8))
+                                        .cornerRadius(6)
+                                }
+                            }
+                        } else {
+                            Button(action: {
+                                self.startTimer()
+                            }) {
+                                Text(isActive ? "STOP" : "START")
+                                    .foregroundColor(Color.white)
+                                    .frame(width: 200, height: 60)
+                                    .font(.system(size: 28))
+                                    .background(AppColors.primary)
+                                    .cornerRadius(6)
+                            }
                         }
-                        .padding(.top)
+                        //                        .padding(.top)
                         
                         Spacer()
                             .frame(height: 20)
@@ -207,8 +247,9 @@ struct FocusView: View {
                     if tasks[index].pomodoroDoneCount >= tasks[index].pomodoroCount {
                         self.showLottieAnimation = true
                     }
-                    
                 }
+                self.showPauseButton = false
+                self.showContinueAndStopButtons = false
             }
         }
     }
@@ -224,6 +265,8 @@ struct FocusView: View {
             // Stop the timer and reset the remaining time
             isActive = false
             timeRemaining = nil
+            showPauseButton = false
+            showContinueAndStopButtons = false
         } else {
             // Start the timer based on selected type
             switch selectedTimerType {
@@ -237,7 +280,30 @@ struct FocusView: View {
                 break
             }
             isActive = true  // Start the timer
+            showPauseButton = true
+            showContinueAndStopButtons = false
         }
+    }
+    
+    func pauseTimer() {
+        isPaused = true
+        isActive = false
+        showPauseButton = false
+        showContinueAndStopButtons = true
+    }
+    
+    func continueTimer() {
+        isPaused = false
+        isActive = true
+        showPauseButton = true
+        showContinueAndStopButtons = false
+    }
+    
+    func stopTimer() {
+        isActive = false
+        timeRemaining = nil
+        showPauseButton = false
+        showContinueAndStopButtons = false
     }
     
     func deleteTask(at offsets: IndexSet) {
