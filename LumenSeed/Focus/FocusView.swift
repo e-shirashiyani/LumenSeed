@@ -54,7 +54,13 @@ struct FocusView: View {
                                     .frame(width: 35,height: 35)
                                     .foregroundStyle(.lumenSecondary)
                             }
-                            .sheet(isPresented: $showingSettings) {
+                            .sheet(isPresented: $showingSettings, onDismiss: {
+                                // Re-select the previously chosen timer type
+                                if let selectedTimer = timerTypes.first(where: { $0.0 == selectedTimerType })?.1 {
+                                    self.selectedTimer = selectedTimer
+                                    self.timeRemaining = selectedTimer
+                                }
+                            }) {
                                 SettingsView(
                                     isPresented: $showingSettings,
                                     pomodoroTime: $pomodoroTime,
@@ -162,7 +168,6 @@ struct FocusView: View {
                                                 .fill(Color.gray)
                                                 .frame(maxWidth: 5, maxHeight: .infinity)
                                                 .cornerRadius(6)
-                                            //                                                .padding(.vertical,2)
                                         }
                                         Spacer()
                                     }
@@ -171,7 +176,6 @@ struct FocusView: View {
                                     self.estimatedPomodoros = task.pomodoroCount
                                     self.taskName = task.title
                                     self.activeTaskID = task.id
-                                    //                                            print(task.title)
                                 }
                             }
                         }
@@ -179,19 +183,17 @@ struct FocusView: View {
                     }
                     .padding()
                 }
-//            }
-//        }
-        if showLottieAnimation {
-                            LottieView(filename: "finish")
-                                .frame(width: 200, height: 200)
-                                .onAppear {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                        self.showLottieAnimation = false
-                                    }
-                                }
+                if showLottieAnimation {
+                    LottieView(filename: "finish")
+                        .frame(width: 200, height: 200)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                self.showLottieAnimation = false
+                            }
                         }
-                    }
                 }
+            }
+        }
         .onReceive(timer) { _ in
             guard isActive, let remaining = timeRemaining, remaining > 0 else { return }
             self.timeRemaining! -= 1
@@ -203,9 +205,9 @@ struct FocusView: View {
                 if let activeTaskID = activeTaskID, let index = tasks.firstIndex(where: { $0.id == activeTaskID }) {
                     tasks[index].pomodoroDoneCount += 1
                     if tasks[index].pomodoroDoneCount >= tasks[index].pomodoroCount {
-                                            self.showLottieAnimation = true
-                                        }
-
+                        self.showLottieAnimation = true
+                    }
+                    
                 }
             }
         }
