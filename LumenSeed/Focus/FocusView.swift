@@ -250,6 +250,7 @@ struct FocusView: View {
                 } else {
                     // Increment estimatedPomodoros if no task is selected
                     self.estimatedPomodoros += 1
+                    self.showLottieAnimation = true
                 }
                 self.showPauseButton = false
                 self.showContinueAndStopButtons = false
