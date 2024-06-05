@@ -24,7 +24,7 @@ struct TagCreationView: View {
                     Circle()
                         .fill(selectedColor)
                         .frame(width: 20,height: 20)
-                        
+                    
                     TextField("Tag name", text: $tagName)
                         .textFieldStyle(.plain)
                         .padding(.all,6)
@@ -45,12 +45,11 @@ struct TagCreationView: View {
                             .fill(color)
                             .frame(width: 40, height: 50)
                             .overlay(
-                                // Check if this color is the selected one and overlay a checkmark
                                 ZStack {
                                     if selectedColor == color {
                                         Image(systemName: "checkmark")
                                             .foregroundColor(.white)
-                                            .font(.system(size: 15)) // You can adjust the size accordingly
+                                            .font(.system(size: 15))
                                     }
                                 }
                             )
@@ -62,32 +61,27 @@ struct TagCreationView: View {
                 .padding()
                 .background(.gray.opacity(0.1))
                 
-                
                 Spacer()
             }
             .navigationTitle("New Tag")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarBackground(.gray.opacity(0.1), for: .navigationBar)
-            
-            
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
                         let newTag = Tag(id: UUID(), name: tagName, color: selectedColor)
                         self.tags.append(newTag)
                         self.presentationMode.wrappedValue.dismiss()
-
+                        
                     }
                     .foregroundStyle(.gray)
                     
                 }
             }
         }
-        
     }
 }
-
 
 #Preview {
     TagCreationView(tags: .constant([Tag(id: UUID(), name: "Bussines", color: .blue)]))

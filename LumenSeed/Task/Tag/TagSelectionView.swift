@@ -105,8 +105,6 @@ struct TagSelectionView: View {
     }
 }
 
-
-
 #Preview {
     TagSelectionView(tags: .constant([
         Tag(id: UUID(), name: "Work", color: .blue),

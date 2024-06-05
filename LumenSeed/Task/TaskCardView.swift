@@ -71,6 +71,7 @@ struct TaskCardView: View {
         }
     }
 }
+
 #Preview {
     TaskCardView(task: Task(title: "Tesla", description: "implement button", status: "Pending", tags: [Tag(id: UUID(), name: "work", color: .blue)], pomodoroCount: 2, pomodoroDoneCount: 0, isDone: false))
 }

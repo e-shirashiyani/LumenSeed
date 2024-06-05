@@ -9,7 +9,7 @@ import SwiftUI
 struct TagListView: View {
     @Binding var selectedTags: Set<Tag>
     @State var showingTags: Bool = false
-    @Binding var tags: [Tag] // You need to pass this if you want to use it in the TagSelectionView
+    @Binding var tags: [Tag]
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -26,9 +26,6 @@ struct TagListView: View {
                 }) {
                     HStack(spacing: 5) {
                         Image(systemName: "plus")
-//                            .resizable()
-//                            .padding(.all, 8)
-//                            .padding(.horizontal, 15)
                             .font(.system(size: 12))
                             .foregroundStyle(.gray.opacity(0.8))
                             
@@ -43,7 +40,6 @@ struct TagListView: View {
                 .background(
                     Capsule()
                         .fill(Color.gray.opacity(0.1))
-//                        .
                 )
                 .accentColor(.blue) // Replace with your theme color
                 .sheet(isPresented: $showingTags) {
@@ -52,20 +48,16 @@ struct TagListView: View {
                 }
                 .padding(.leading,6)
             }
-//            .padding(.horizontal)
         }
     }
 }
 
-
 let sampleTags = [
             Tag(id: UUID(), name: "Work", color: .purple),
             Tag(id: UUID(), name: "Home", color: .blue),
-            // Add more tags if needed
         ]
-        
-        // Convert the array of tags to a set for the preview
         let sampleTagSet = Set(sampleTags)
+
 #Preview {
     TagListView(selectedTags: .constant(sampleTagSet), tags: .constant([Tag(id: UUID(), name: "Bussines", color: .green)]))
 }
