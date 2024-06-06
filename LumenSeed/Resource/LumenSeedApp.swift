@@ -12,6 +12,7 @@ import AVFAudio
 @main
 struct LumenSeedApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    let persistenceController = PersistenceController.shared
 
     @State private var showLaunchScreen = true
 
@@ -59,6 +60,7 @@ struct LumenSeedApp: App {
                         .tint(.white)
                         .onAppear(perform: setupLifecycleObserver)
                         .preferredColorScheme(.light)
+                        .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 }
             }
             .onAppear {

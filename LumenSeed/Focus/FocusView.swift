@@ -7,14 +7,18 @@
 
 import SwiftUI
 import AVFoundation
+import CoreData
 
 struct FocusView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(entity: TaskEntity.entity(), sortDescriptors: [])
+    private var fetchedTasks: FetchedResults<TaskEntity>
+
     @State private var selectedTimer: Int = 25 * 60
     @State private var isActive: Bool = false
     @State private var showingAddTaskSheet = false
     @State private var estimatedPomodoros = 0
     @State private var taskName = "Time to focus!"
-    @State private var tasks: [Task] = []
     @State private var showingSettings = false
     @State private var pomodoroTime: Int = 25 * 60
     @State private var shortBreakTime: Int = 5 * 60
@@ -36,7 +40,7 @@ struct FocusView: View {
             ("Long", longBreakTime)
         ]
     }
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -48,15 +52,13 @@ struct FocusView: View {
                             
                             Button(action: {
                                 showingSettings.toggle()
-                                
                             }) {
                                 Image(systemName: "gear")
                                     .resizable()
-                                    .frame(width: 35,height: 35)
-                                    .foregroundStyle(.lumenSecondary)
+                                    .frame(width: 35, height: 35)
+                                    .foregroundStyle(.secondary)
                             }
                             .sheet(isPresented: $showingSettings, onDismiss: {
-                                // Re-select the previously chosen timer type
                                 if let selectedTimer = timerTypes.first(where: { $0.0 == selectedTimerType })?.1 {
                                     self.selectedTimer = selectedTimer
                                     self.timeRemaining = selectedTimer
@@ -87,20 +89,19 @@ struct FocusView: View {
                                     self.timeRemaining = self.timerTypes[index].1
                                 }) {
                                     Text(self.timerTypes[index].0)
-                                        .padding(.all,10)
-                                        .background(self.selectedTimer == self.timerTypes[index].1 ? AppColors.primary : Color.gray.opacity(0.2))
-                                    
-                                        .foregroundColor(self.selectedTimer == self.timerTypes[index].1 ? Color.white : AppColors.secondry)
+                                        .padding(.all, 10)
+                                        .background(self.selectedTimer == self.timerTypes[index].1 ? Color.lumenGreen : Color.gray.opacity(0.2))
+                                        .foregroundColor(self.selectedTimer == self.timerTypes[index].1 ? Color.white : Color.secondary)
                                 }
                                 .cornerRadius(6)
                             }
                         }
-                        .padding(.top,30)
+                        .padding(.top, 30)
                         
                         Text(timeString(time: timeRemaining ?? selectedTimer))
                             .font(.system(size: 90))
                             .fontWeight(.medium)
-                            .foregroundStyle(AppColors.secondry)
+                            .foregroundStyle(Color.secondary)
                             .padding()
                             .padding(.top)
                         
@@ -114,7 +115,7 @@ struct FocusView: View {
                                     .font(.system(size: 28))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 6)
-                                            .stroke(.lumenSecondary.opacity(0.8), lineWidth: 2)
+                                            .stroke(Color.secondary.opacity(0.8), lineWidth: 2)
                                     )
                             }
                         } else if showContinueAndStopButtons {
@@ -126,7 +127,7 @@ struct FocusView: View {
                                         .foregroundColor(Color.white)
                                         .frame(width: 150, height: 60)
                                         .font(.system(size: 26))
-                                        .background(AppColors.primary)
+                                        .background(Color.lumenGreen)
                                         .cornerRadius(6)
                                 }
                                 
@@ -137,7 +138,7 @@ struct FocusView: View {
                                         .foregroundColor(Color.white)
                                         .frame(width: 100, height: 60)
                                         .font(.system(size: 26))
-                                        .background(.lumenSecondary.opacity(0.8))
+                                        .background(Color.secondary.opacity(0.8))
                                         .cornerRadius(6)
                                 }
                             }
@@ -149,11 +150,10 @@ struct FocusView: View {
                                     .foregroundColor(Color.white)
                                     .frame(width: 200, height: 60)
                                     .font(.system(size: 28))
-                                    .background(AppColors.primary)
+                                    .background(Color.lumenGreen)
                                     .cornerRadius(6)
                             }
                         }
-                        //                        .padding(.top)
                         
                         Spacer()
                             .frame(height: 20)
@@ -163,37 +163,35 @@ struct FocusView: View {
                             .font(.title3)
                             .padding()
                         
-                        
                         Button(action: {
                             self.showingAddTaskSheet = true
                         }) {
                             HStack {
                                 Image(systemName: "plus.circle")
-                                    .foregroundStyle(AppColors.primary)
+                                    .foregroundStyle(.lumenGreen)
                                     .font(.title)
                                 
                                 Text("Add Task")
                                     .font(.title2)
                                     .frame(alignment: .center)
-                                    .foregroundStyle(AppColors.primary)
+                                    .foregroundStyle(.lumenGreen)
                             }
                         }
                         .frame(maxWidth: .infinity)
-                        .frame(height: 50) // Set height here
-                        .background(AppColors.secondry.opacity(0.8))
+                        .frame(height: 50)
+                        .background(Color.secondary.opacity(0.8))
                         .cornerRadius(8)
                         .padding(.top, 40)
                         .padding(.all, 8)
                         .sheet(isPresented: $showingAddTaskSheet) {
-                            AddTaskSheetView(estimatedPomodoros: $estimatedPomodoros, tasks: $tasks)
+                            AddTaskSheetView(estimatedPomodoros: $estimatedPomodoros)
                         }
                         
                         VStack(spacing: 10) {
-                            ForEach(tasks) { task in
+                            ForEach(fetchedTasks) { task in
                                 SwipeableTaskCardView(task: task, onDelete: {
-                                    if let index = tasks.firstIndex(where: { $0.id == task.id }) {
-                                        tasks.remove(at: index)
-                                    }
+                                    viewContext.delete(task)
+                                    saveContext()
                                 })
                                 .padding(.horizontal, 8)
                                 .padding(.top, 4)
@@ -213,8 +211,8 @@ struct FocusView: View {
                                     }
                                 )
                                 .onTapGesture {
-                                    self.estimatedPomodoros = task.pomodoroCount
-                                    self.taskName = task.title
+                                    self.estimatedPomodoros = Int(task.pomodoroCount)
+                                    self.taskName = task.title ?? ""
                                     self.activeTaskID = task.id
                                 }
                             }
@@ -241,14 +239,13 @@ struct FocusView: View {
                 self.isActive = false
                 self.timeRemaining = nil
                 playSound()
-                // Update the active task's pomodoroDoneCount
-                if let activeTaskID = activeTaskID, let index = tasks.firstIndex(where: { $0.id == activeTaskID }) {
-                    tasks[index].pomodoroDoneCount += 1
-                    if tasks[index].pomodoroDoneCount >= tasks[index].pomodoroCount {
+                if let activeTaskID = activeTaskID, let task = fetchedTasks.first(where: { $0.id == activeTaskID }) {
+                    task.pomodoroDoneCount += 1
+                    if task.pomodoroDoneCount >= task.pomodoroCount {
                         self.showLottieAnimation = true
                     }
+                    saveContext()
                 } else {
-                    // Increment estimatedPomodoros if no task is selected
                     self.estimatedPomodoros += 1
                     self.showLottieAnimation = true
                 }
@@ -266,13 +263,11 @@ struct FocusView: View {
     
     func startTimer() {
         if isActive {
-            // Stop the timer and reset the remaining time
             isActive = false
             timeRemaining = nil
             showPauseButton = false
             showContinueAndStopButtons = false
         } else {
-            // Start the timer based on selected type
             switch selectedTimerType {
             case "Pomo":
                 timeRemaining = pomodoroTime
@@ -283,12 +278,52 @@ struct FocusView: View {
             default:
                 break
             }
-            isActive = true  // Start the timer
+            isActive = true
             showPauseButton = true
             showContinueAndStopButtons = false
         }
     }
     
+    private func saveContext() {
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+    
+    //    func timeString(time: Int) -> String {
+    //        let minutes = time / 60
+    //        let seconds = time % 60
+    //        return String(format: "%02i:%02i", minutes, seconds)
+    //    }
+    //    
+    //    func startTimer() {
+    //        if isActive {
+    //            // Stop the timer and reset the remaining time
+    //            isActive = false
+    //            timeRemaining = nil
+    //            showPauseButton = false
+    //            showContinueAndStopButtons = false
+    //        } else {
+    //            // Start the timer based on selected type
+    //            switch selectedTimerType {
+    //            case "Pomo":
+    //                timeRemaining = pomodoroTime
+    //            case "Short":
+    //                timeRemaining = shortBreakTime
+    //            case "Long":
+    //                timeRemaining = longBreakTime
+    //            default:
+    //                break
+    //            }
+    //            isActive = true  // Start the timer
+    //            showPauseButton = true
+    //            showContinueAndStopButtons = false
+    //        }
+    //    }
+    //    
     func pauseTimer() {
         isPaused = true
         isActive = false
@@ -310,10 +345,10 @@ struct FocusView: View {
         showContinueAndStopButtons = false
     }
     
-    func deleteTask(at offsets: IndexSet) {
-        tasks.remove(atOffsets: offsets)
-    }
-    
+    //    func deleteTask(at offsets: IndexSet) {
+    //        tasks.remove(atOffsets: offsets)
+    //    }
+    //    
     func playSound() {
         guard let url = Bundle.main.url(forResource: "bell", withExtension: "wav") else {
             print("Sound file not found.")

@@ -11,6 +11,8 @@
 		B819BBF12C0E3F3500B24644 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B819BBF02C0E3F3400B24644 /* LottieView.swift */; };
 		B819BBF62C0E407E00B24644 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = B819BBF52C0E407E00B24644 /* Lottie */; };
 		B819BBFA2C0E437900B24644 /* finish.json in Resources */ = {isa = PBXBuildFile; fileRef = B819BBF92C0E437800B24644 /* finish.json */; };
+		B819BC112C11A1C600B24644 /* MyDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B819BC0F2C11A1C600B24644 /* MyDataModel.xcdatamodeld */; };
+		B819BC142C11A27B00B24644 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B819BC132C11A27B00B24644 /* PersistenceController.swift */; };
 		B82DB3112BBDE7B900E2D910 /* LumenSeedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82DB3102BBDE7B900E2D910 /* LumenSeedApp.swift */; };
 		B82DB3132BBDE7B900E2D910 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82DB3122BBDE7B900E2D910 /* ContentView.swift */; };
 		B82DB3152BBDE7B900E2D910 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82DB3142BBDE7B900E2D910 /* Item.swift */; };
@@ -78,6 +80,8 @@
 		B819BBED2C0E1E2C00B24644 /* SwipeableTaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableTaskCardView.swift; sourceTree = "<group>"; };
 		B819BBF02C0E3F3400B24644 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		B819BBF92C0E437800B24644 /* finish.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = finish.json; sourceTree = "<group>"; };
+		B819BC102C11A1C600B24644 /* MyDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyDataModel.xcdatamodel; sourceTree = "<group>"; };
+		B819BC132C11A27B00B24644 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		B82DB30D2BBDE7B900E2D910 /* LumenSeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LumenSeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B82DB3102BBDE7B900E2D910 /* LumenSeedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumenSeedApp.swift; sourceTree = "<group>"; };
 		B82DB3122BBDE7B900E2D910 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -161,9 +165,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B819BC122C11A27300B24644 /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				B819BC132C11A27B00B24644 /* PersistenceController.swift */,
+			);
+			path = DB;
+			sourceTree = "<group>";
+		};
 		B82DB3042BBDE7B900E2D910 = {
 			isa = PBXGroup;
 			children = (
+				B819BC0F2C11A1C600B24644 /* MyDataModel.xcdatamodeld */,
 				B8C32A0E2BC8659800C7CF8E /* AppUsageRow.swift */,
 				B82DB30F2BBDE7B900E2D910 /* LumenSeed */,
 				B82DB3222BBDE7BB00E2D910 /* LumenSeedTests */,
@@ -186,6 +199,7 @@
 		B82DB30F2BBDE7B900E2D910 /* LumenSeed */ = {
 			isa = PBXGroup;
 			children = (
+				B819BC122C11A27300B24644 /* DB */,
 				B82DB33E2BBDEA3300E2D910 /* TabBarView.swift */,
 				B82DB33C2BBDE82200E2D910 /* LaunchScreenView.swift */,
 				B87FE6A72BCE6BC500EC1E85 /* Info.plist */,
@@ -493,6 +507,7 @@
 				B8C32A152BCA5BCF00C7CF8E /* AppDelegate.swift in Sources */,
 				B82DB3432BBDF06300E2D910 /* TabBar+Ext.swift in Sources */,
 				B8C329F22BC1272900C7CF8E /* GardenView.swift in Sources */,
+				B819BC142C11A27B00B24644 /* PersistenceController.swift in Sources */,
 				B8C32A192BCA6E6600C7CF8E /* PointsView.swift in Sources */,
 				B82DB3452BBDF06C00E2D910 /* Image+Ext.swift in Sources */,
 				B87FE69E2BCC39AF00EC1E85 /* AddTaskSheetView.swift in Sources */,
@@ -510,6 +525,7 @@
 				B8C32A172BCA6E4900C7CF8E /* PrimaryButtonStyle.swift in Sources */,
 				B87FE6A02BCC67B800EC1E85 /* Task.swift in Sources */,
 				B82DB3112BBDE7B900E2D910 /* LumenSeedApp.swift in Sources */,
+				B819BC112C11A1C600B24644 /* MyDataModel.xcdatamodeld in Sources */,
 				B8C32A132BC9A8F100C7CF8E /* CGFloat+Ext.swift in Sources */,
 				B87FE6B92BCE893100EC1E85 /* TagCreationView.swift in Sources */,
 				B82DB33F2BBDEA3300E2D910 /* TabBarView.swift in Sources */,
@@ -877,6 +893,20 @@
 			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		B819BC0F2C11A1C600B24644 /* MyDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B819BC102C11A1C600B24644 /* MyDataModel.xcdatamodel */,
+			);
+			currentVersion = B819BC102C11A1C600B24644 /* MyDataModel.xcdatamodel */;
+			name = MyDataModel.xcdatamodeld;
+			path = /Users/e.shirashiyani/Desktop/Swift/LumenSeed/MyDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B82DB3052BBDE7B900E2D910 /* Project object */;
 }

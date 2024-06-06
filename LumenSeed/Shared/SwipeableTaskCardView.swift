@@ -7,11 +7,14 @@
 
 import SwiftUI
 
+import SwiftUI
+import CoreData
+
 struct SwipeableTaskCardView: View {
-    let task: Task
+    let task: TaskEntity
     let onDelete: () -> Void
     @State private var offset = CGSize.zero
-    
+
     var body: some View {
         ZStack {
             HStack {
@@ -29,7 +32,7 @@ struct SwipeableTaskCardView: View {
                     .padding(.trailing, 20)
                 }
             }
-            
+
             TaskCardView(task: task)
                 .offset(x: offset.width)
                 .gesture(
