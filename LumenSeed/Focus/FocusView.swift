@@ -13,7 +13,7 @@ struct FocusView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(entity: TaskEntity.entity(), sortDescriptors: [])
     private var fetchedTasks: FetchedResults<TaskEntity>
-
+    
     @State private var selectedTimer: Int = 25 * 60
     @State private var isActive: Bool = false
     @State private var showingAddTaskSheet = false
@@ -40,7 +40,7 @@ struct FocusView: View {
             ("Long", longBreakTime)
         ]
     }
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -56,7 +56,7 @@ struct FocusView: View {
                                 Image(systemName: "gear")
                                     .resizable()
                                     .frame(width: 35, height: 35)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(.lumenSecondary)
                             }
                             .sheet(isPresented: $showingSettings, onDismiss: {
                                 if let selectedTimer = timerTypes.first(where: { $0.0 == selectedTimerType })?.1 {
@@ -179,8 +179,12 @@ struct FocusView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .frame(height: 50)
-                        .background(Color.secondary.opacity(0.8))
+                        .background(Color.white) // Optional: Set a background color if needed
                         .cornerRadius(8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.lumenGreen, lineWidth: 2) // Stroke color and width
+                        )
                         .padding(.top, 40)
                         .padding(.all, 8)
                         .sheet(isPresented: $showingAddTaskSheet) {
@@ -293,37 +297,6 @@ struct FocusView: View {
         }
     }
     
-    //    func timeString(time: Int) -> String {
-    //        let minutes = time / 60
-    //        let seconds = time % 60
-    //        return String(format: "%02i:%02i", minutes, seconds)
-    //    }
-    //    
-    //    func startTimer() {
-    //        if isActive {
-    //            // Stop the timer and reset the remaining time
-    //            isActive = false
-    //            timeRemaining = nil
-    //            showPauseButton = false
-    //            showContinueAndStopButtons = false
-    //        } else {
-    //            // Start the timer based on selected type
-    //            switch selectedTimerType {
-    //            case "Pomo":
-    //                timeRemaining = pomodoroTime
-    //            case "Short":
-    //                timeRemaining = shortBreakTime
-    //            case "Long":
-    //                timeRemaining = longBreakTime
-    //            default:
-    //                break
-    //            }
-    //            isActive = true  // Start the timer
-    //            showPauseButton = true
-    //            showContinueAndStopButtons = false
-    //        }
-    //    }
-    //    
     func pauseTimer() {
         isPaused = true
         isActive = false
@@ -345,10 +318,6 @@ struct FocusView: View {
         showContinueAndStopButtons = false
     }
     
-    //    func deleteTask(at offsets: IndexSet) {
-    //        tasks.remove(atOffsets: offsets)
-    //    }
-    //    
     func playSound() {
         guard let url = Bundle.main.url(forResource: "bell", withExtension: "wav") else {
             print("Sound file not found.")

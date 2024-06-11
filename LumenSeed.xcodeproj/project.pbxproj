@@ -57,6 +57,7 @@
 		B8C32A152BCA5BCF00C7CF8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C32A142BCA5BCE00C7CF8E /* AppDelegate.swift */; };
 		B8C32A172BCA6E4900C7CF8E /* PrimaryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C32A162BCA6E4900C7CF8E /* PrimaryButtonStyle.swift */; };
 		B8C32A192BCA6E6600C7CF8E /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C32A182BCA6E6600C7CF8E /* PointsView.swift */; };
+		B8C646782C1874F100CBF5AE /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C646772C1874F100CBF5AE /* UIColor+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +131,7 @@
 		B8C32A142BCA5BCE00C7CF8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B8C32A162BCA6E4900C7CF8E /* PrimaryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonStyle.swift; sourceTree = "<group>"; };
 		B8C32A182BCA6E6600C7CF8E /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
+		B8C646772C1874F100CBF5AE /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +287,7 @@
 			children = (
 				B82DB3422BBDF06300E2D910 /* TabBar+Ext.swift */,
 				B82DB3442BBDF06C00E2D910 /* Image+Ext.swift */,
+				B8C646772C1874F100CBF5AE /* UIColor+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				B87FE69C2BCC380400EC1E85 /* FocusView.swift in Sources */,
 				B82DB3412BBDED2D00E2D910 /* TimerView.swift in Sources */,
 				B8C32A092BC82AC100C7CF8E /* CountDownTimePickerView.swift in Sources */,
+				B8C646782C1874F100CBF5AE /* UIColor+Ext.swift in Sources */,
 				B87FE7032BD0448F00EC1E85 /* TagListView.swift in Sources */,
 				B87FE7052BD0F74B00EC1E85 /* CapsuleButtonStyle.swift in Sources */,
 				B8C329EE2BBFE18900C7CF8E /* PomodoroWarningView.swift in Sources */,

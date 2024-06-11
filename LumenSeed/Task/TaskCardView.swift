@@ -6,10 +6,6 @@
 //
 
 import SwiftUI
-
-import SwiftUI
-
-import SwiftUI
 import CoreData
 
 struct TaskCardView: View {
@@ -18,23 +14,24 @@ struct TaskCardView: View {
     var body: some View {
         VStack {
             HStack {
-                // Display tags if available
-                if let title = task.title {
-                    Text(title)
-                        .foregroundColor(Color.blue)
+                ForEach(Array(task.tagSet.prefix(2)), id: \.self.id) { tag in
+                    let colorHex = tag.color 
+                    let color = Color(hex: colorHex) ?? .black
+
+                    Text(tag.name)
+                        .foregroundColor(color) // Use converted color
                         .font(.caption)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                        .background(Color.blue.opacity(0.3))
+                        .background(color.opacity(0.3)) // Use converted color
                         .cornerRadius(5)
                 }
                 Spacer()
             }
             .padding(.horizontal, 10)
             .padding(.top, 10)
-            
+
             HStack {
-                // The circle indicator or checkmark
                 if task.pomodoroDoneCount >= task.pomodoroCount {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.green)
@@ -44,8 +41,6 @@ struct TaskCardView: View {
                         .fill(Color.black)
                         .frame(width: 10, height: 10)
                 }
-                
-                // Task description with hashtag
                 VStack(alignment: .leading, spacing: 4) {
                     if let title = task.title {
                         Text("#\(title)")
@@ -60,15 +55,11 @@ struct TaskCardView: View {
                     }
                 }
                 .padding(.leading)
-                
                 Spacer()
-                
-                // Completion counter
                 HStack(spacing: 2) {
                     Text("\(task.pomodoroDoneCount)/\(task.pomodoroCount)")
                         .font(.caption)
                         .foregroundColor(.gray)
-                    
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.gray)
                 }
@@ -81,7 +72,6 @@ struct TaskCardView: View {
 //        .shadow(color: .gray.opacity(0.3), radius: 2, x: 0, y: 1)
     }
 }
-
 //#Preview {
 //    TaskCardView(task: Task(title: "Tesla", description: "implement button", status: "Pending", tags: [Tag(id: UUID(), name: "work", color: .blue)], pomodoroCount: 2, pomodoroDoneCount: 0, isDone: false))
 //}

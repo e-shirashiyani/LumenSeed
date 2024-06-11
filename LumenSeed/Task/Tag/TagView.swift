@@ -14,27 +14,26 @@ struct TagView: View {
     var body: some View {
         HStack(spacing: 6) {
             Text(tag.name)
-                .foregroundColor(tag.color)
+                .foregroundColor(Color(hex: tag.color))
                 .font(.system(size: 16))
                 .padding(.leading, 10)
 
             Button(action: { onDelete(tag) }) {
                 Image(systemName: "xmark")
                     .resizable()
-                    .foregroundColor(tag.color)
-                    .frame(width: 10,height: 10)
+                    .foregroundColor(Color(hex: tag.color))
+                    .frame(width: 10, height: 10)
             }
-            .padding(.horizontal,3)
-            .padding(.trailing,8)
+            .padding(.horizontal, 3)
+            .padding(.trailing, 8)
         }
         .padding(.vertical, 6)
         .background(
             Capsule()
-                .foregroundColor(tag.color.opacity(0.2))
+                .foregroundColor(Color(hex: tag.color)?.opacity(0.2))
         )
     }
 }
-
 //#Preview {
 //    TagView(tag: Tag(id: UUID(), name: "work", color: .cyan))
 //}

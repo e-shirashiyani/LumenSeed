@@ -6,39 +6,34 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct TagCreationView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     @Binding var tags: [Tag]
     @State private var tagName: String = ""
     @State private var selectedColor: Color = .blue
     @Environment(\.presentationMode) var presentationMode
-    let colors: [Color] = [.red, .green, .blue, .orange, .purple, .brown, .cyan, .black, .gray, .indigo , .yellow, .mint , .pink, .lumenSecondary, .lumenGreen]
-    
+    let colors: [Color] = [.red, .green, .blue, .orange, .purple, .brown, .cyan, .black, .gray, .indigo, .yellow, .mint, .pink, .lumenSecondary, .lumenGreen]
+
+    var onSave: () -> Void
+
     var body: some View {
         NavigationView {
             VStack {
-                Text("")
-                    .frame(maxWidth: .infinity,maxHeight: 15)
-                    .background(.white)
                 HStack {
                     Circle()
                         .fill(selectedColor)
-                        .frame(width: 20,height: 20)
-                    
+                        .frame(width: 20, height: 20)
+
                     TextField("Tag name", text: $tagName)
                         .textFieldStyle(.plain)
-                        .padding(.all,6)
-                    
+                        .padding(.all, 6)
                 }
-                .padding(.all,8)
+                .padding(.all, 8)
                 .padding(.horizontal)
-                .background(.gray.opacity(0.1))
-                
-                Text("")
-                    .frame(maxWidth: .infinity,maxHeight: 10)
-                    .background(.white)
-                
-                // Color Picker
+                .background(Color.gray.opacity(0.1))
+
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))]) {
                     ForEach(colors, id: \.self) { color in
                         Circle()
@@ -59,30 +54,60 @@ struct TagCreationView: View {
                     }
                 }
                 .padding()
-                .background(.gray.opacity(0.1))
-                
+                .background(Color.gray.opacity(0.1))
+
                 Spacer()
             }
             .navigationTitle("New Tag")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(.gray.opacity(0.1), for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
-                        let newTag = Tag(id: UUID(), name: tagName, color: selectedColor)
-                        self.tags.append(newTag)
-                        self.presentationMode.wrappedValue.dismiss()
-                        
+                        saveTag()
                     }
                     .foregroundStyle(.gray)
-                    
                 }
             }
         }
     }
-}
 
-#Preview {
-    TagCreationView(tags: .constant([Tag(id: UUID(), name: "Bussines", color: .blue)]))
+    private func saveTag() {
+        let request: NSFetchRequest<TagEntity> = TagEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "name == %@", tagName)
+        
+        do {
+            let existingTags = try viewContext.fetch(request)
+            if existingTags.isEmpty {
+                let newTag = TagEntity(context: viewContext)
+                newTag.id = UUID()
+                newTag.name = tagName
+                newTag.color = selectedColor.toHexString()
+                try viewContext.save()
+                fetchTags()
+                onSave() // Notify about the save
+            } else {
+                // Handle the case where the tag already exists
+                print("Tag already exists.")
+            }
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        
+        self.presentationMode.wrappedValue.dismiss()
+    }
+
+    private func fetchTags() {
+        let request: NSFetchRequest<TagEntity> = TagEntity.fetchRequest()
+        do {
+            let fetchedTags = try viewContext.fetch(request)
+            let uniqueTags = Set(fetchedTags.map { Tag(id: $0.id!, name: $0.name!, color: $0.color!) })
+            self.tags = Array(uniqueTags)
+        } catch {
+            print("Failed to fetch tags: \(error.localizedDescription)")
+        }
+    }
 }
+//#Preview {
+//    TagCreationView(tags: .constant([Tag(id: UUID(), name: "Bussines", color: .blue)]))
+//}

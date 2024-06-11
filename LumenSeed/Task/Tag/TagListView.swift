@@ -18,7 +18,7 @@ struct TagListView: View {
                     TagView(tag: tag) { tagToRemove in
                         selectedTags.remove(tagToRemove)
                     }
-                    .padding(.horizontal,6)
+                    .padding(.horizontal, 6)
                 }
 
                 Button(action: {
@@ -32,32 +32,30 @@ struct TagListView: View {
                         Text("Tags")
                             .font(.system(size: 12))
                             .foregroundStyle(.gray)
-
                     }
                 }
-                .padding(.all,8)
-                .padding(.horizontal,6)
+                .padding(.all, 8)
+                .padding(.horizontal, 6)
                 .background(
                     Capsule()
                         .fill(Color.gray.opacity(0.1))
                 )
-                .accentColor(.blue) // Replace with your theme color
+                .accentColor(.blue)
                 .sheet(isPresented: $showingTags) {
                     TagSelectionView(tags: $tags, selectedTags: $selectedTags)
-                        .presentationDetents([.medium])  // Controls the height of the presented sheet
+                        .presentationDetents([.medium])
                 }
-                .padding(.leading,6)
+                .padding(.leading, 6)
             }
         }
     }
 }
-
 let sampleTags = [
-            Tag(id: UUID(), name: "Work", color: .purple),
-            Tag(id: UUID(), name: "Home", color: .blue),
+            Tag(id: UUID(), name: "Work", color: ""),
+            Tag(id: UUID(), name: "Home", color: ""),
         ]
         let sampleTagSet = Set(sampleTags)
 
-#Preview {
-    TagListView(selectedTags: .constant(sampleTagSet), tags: .constant([Tag(id: UUID(), name: "Bussines", color: .green)]))
-}
+//#Preview {
+//    TagListView(selectedTags: .constant(sampleTagSet), tags: .constant([Tag(id: UUID(), name: "Bussines", color: .green)]))
+//}

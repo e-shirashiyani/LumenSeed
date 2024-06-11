@@ -123,8 +123,8 @@ struct SettingsView: View {
                     }
                 }
                 .navigationBarTitle("SETTING", displayMode: .inline)
-                .navigationBarItems(leading: Button("Cancel", action: { isPresented = false }),
-                                    trailing: Button("Save", action: { saveSettings() }))
+                .navigationBarItems(leading: Button("Cancel", action: { isPresented = false }).foregroundStyle(.lumenSecondary),
+                                    trailing: Button("Save", action: { saveSettings() }).foregroundStyle(.lumenSecondary))
             }
         }
     }

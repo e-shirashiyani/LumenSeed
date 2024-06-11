@@ -9,10 +9,17 @@ import SwiftUI
 
 struct AddTaskSheetView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(
+        entity: TagEntity.entity(),
+        sortDescriptors: []
+    ) private var fetchedTags: FetchedResults<TagEntity>
+    
     @Binding var estimatedPomodoros: Int
     @State private var taskTitle: String = ""
     @State private var taskDescription: String = ""
+    @State private var selectedTags: Set<Tag> = []
     @Environment(\.presentationMode) var presentationMode
+    @State private var tags: [Tag] = []
 
     var body: some View {
         NavigationView {
@@ -21,25 +28,17 @@ struct AddTaskSheetView: View {
                 TextField("Enter task title", text: $taskTitle)
                     .padding()
                     .font(.title3)
-                    .cornerRadius(50.0)
-                    .textFieldStyle(.plain)
                     .background(Color.gray.opacity(0.1))
-                    .shadow(color: Color.black.opacity(0.08), radius: 60, x: 0.0, y: 16)
                     .cornerRadius(8)
-                    .accentColor(Color.lumenGreen)
-                    .textFieldStyle(.roundedBorder)
                 
                 Text("Description")
                 TextField("What are you working on?", text: $taskDescription)
                     .padding()
                     .font(.title3)
-                    .cornerRadius(50.0)
-                    .textFieldStyle(.plain)
                     .background(Color.gray.opacity(0.1))
-                    .shadow(color: Color.black.opacity(0.08), radius: 60, x: 0.0, y: 16)
                     .cornerRadius(8)
-                    .accentColor(Color.lumenGreen)
-                    .textFieldStyle(.roundedBorder)
+
+                TagListView(selectedTags: $selectedTags, tags: $tags)
                 
                 HStack {
                     Text("Est Pomodoros")
@@ -63,6 +62,7 @@ struct AddTaskSheetView: View {
                         newTask.pomodoroCount = Int32(estimatedPomodoros)
                         newTask.pomodoroDoneCount = 0
                         newTask.isDone = false
+                        newTask.tagSet = selectedTags
                         saveContext()
                         self.presentationMode.wrappedValue.dismiss()
                     }
@@ -71,6 +71,9 @@ struct AddTaskSheetView: View {
             }
         }
         .padding()
+        .onAppear {
+            fetchTags()
+        }
     }
     
     private func saveContext() {
@@ -81,7 +84,13 @@ struct AddTaskSheetView: View {
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
+    
+    private func fetchTags() {
+        let uniqueTags = Set(fetchedTags.map { Tag(id: $0.id!, name: $0.name!, color: $0.color!) })
+        tags = Array(uniqueTags)
+    }
 }
+
 //#Preview {
 //    AddTaskSheetView(estimatedPomodoros: .constant(2), tasks: .constant([Task(title: "tesla", description: "implement button", status: "pending", tags: [], pomodoroCount: 2, pomodoroDoneCount: 0, isDone: false)]))
 //}
