@@ -6,30 +6,76 @@
 //
 
 import XCTest
+import SwiftUI
+import CoreData
+@testable import LumenSeed
 
-final class FocusViewTests: XCTestCase {
-
+class FocusViewTests: XCTestCase {
+    
+    var viewContext: NSManagedObjectContext!
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        // Initialize an in-memory Core Data stack
+        let persistentContainer = NSPersistentContainer(name: "MyDataModel")
+        let description = NSPersistentStoreDescription()
+        description.type = NSInMemoryStoreType
+        
+        persistentContainer.persistentStoreDescriptions = [description]
+        persistentContainer.loadPersistentStores { description, error in
+            if let error = error {
+                fatalError("Error: \(error.localizedDescription)")
+            }
         }
+        
+        viewContext = persistentContainer.viewContext
     }
-
+    
+    func testFetchingTasks() throws {
+        // Create mock tasks
+        let task1 = TaskEntity(context: viewContext)
+        task1.id = UUID()
+        task1.title = "Task 1"
+        task1.pomodoroCount = 4
+        task1.pomodoroDoneCount = 2
+        
+        let task2 = TaskEntity(context: viewContext)
+        task2.id = UUID()
+        task2.title = "Task 2"
+        task2.pomodoroCount = 6
+        task2.pomodoroDoneCount = 5
+        
+        try viewContext.save()
+        
+        // Fetch the tasks
+        let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
+        let fetchedTasks = try viewContext.fetch(fetchRequest)
+        
+        XCTAssertEqual(fetchedTasks.count, 2)
+        XCTAssertEqual(fetchedTasks[0].title, "Task 1")
+        XCTAssertEqual(fetchedTasks[1].title, "Task 2")
+    }
+    
+    func testTaskDeletion() throws {
+        // Create a mock task
+        let task = TaskEntity(context: viewContext)
+        task.id = UUID()
+        task.title = "Task to delete"
+        task.pomodoroCount = 3
+        task.pomodoroDoneCount = 1
+        
+        try viewContext.save()
+        
+        // Fetch the task
+        let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
+        var fetchedTasks = try viewContext.fetch(fetchRequest)
+        XCTAssertEqual(fetchedTasks.count, 1)
+        
+        // Delete the task
+        viewContext.delete(fetchedTasks[0])
+        try viewContext.save()
+        
+        // Fetch the tasks again
+        fetchedTasks = try viewContext.fetch(fetchRequest)
+        XCTAssertEqual(fetchedTasks.count, 0)
+    }
 }

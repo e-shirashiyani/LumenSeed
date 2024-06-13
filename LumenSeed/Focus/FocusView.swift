@@ -31,6 +31,8 @@ struct FocusView: View {
     @State private var isPaused: Bool = false
     @State private var showPauseButton: Bool = false
     @State private var showContinueAndStopButtons: Bool = false
+    @State private var showDeleteConfirmation: Bool = false
+    @State private var taskToDelete: TaskEntity? = nil
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var timerTypes: [(String, Int)] {
@@ -194,8 +196,8 @@ struct FocusView: View {
                         VStack(spacing: 10) {
                             ForEach(fetchedTasks) { task in
                                 SwipeableTaskCardView(task: task, onDelete: {
-                                    viewContext.delete(task)
-                                    saveContext()
+                                    self.taskToDelete = task
+                                    self.showDeleteConfirmation = true
                                 })
                                 .padding(.horizontal, 8)
                                 .padding(.top, 4)
@@ -246,7 +248,7 @@ struct FocusView: View {
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(8)
                     .padding(.horizontal,26)
-
+                    
                 }
                 if showLottieAnimation {
                     LottieView(filename: "finish")
@@ -258,6 +260,19 @@ struct FocusView: View {
                         }
                 }
             }
+        }
+        .alert(isPresented: $showDeleteConfirmation) {
+            Alert(
+                title: Text("Delete Task"),
+                message: Text("Are you sure you want to delete this task?"),
+                primaryButton: .destructive(Text("Delete")) {
+                    if let task = taskToDelete {
+                        viewContext.delete(task)
+                        saveContext()
+                    }
+                },
+                secondaryButton: .cancel()
+            )
         }
         .onReceive(timer) { _ in
             guard isActive, let remaining = timeRemaining, remaining > 0 else { return }
@@ -281,7 +296,6 @@ struct FocusView: View {
             }
         }
     }
-    
     func timeString(time: Int) -> String {
         let minutes = time / 60
         let seconds = time % 60
@@ -352,7 +366,6 @@ struct FocusView: View {
             audioPlayer?.volume = 1.0
             audioPlayer?.play()
             
-            // Stop the sound after 2 seconds
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.audioPlayer?.stop()
             }
