@@ -17,7 +17,7 @@ struct FocusView: View {
     @State private var selectedTimer: Int = 25 * 60
     @State private var isActive: Bool = false
     @State private var showingAddTaskSheet = false
-    @State private var estimatedPomodoros = 1
+    @State private var estimatedPomodoros = 0
     @State private var taskName = "Time to focus!"
     @State private var showingSettings = false
     @State private var pomodoroTime: Int = 25 * 60
@@ -154,7 +154,6 @@ struct FocusView: View {
                                     .cornerRadius(6)
                             }
                         }
-                        
                         Spacer()
                             .frame(height: 20)
                         
@@ -183,11 +182,11 @@ struct FocusView: View {
                         .cornerRadius(8)
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.lumenGreen, lineWidth: 2) // Stroke color and width
+                                .stroke(Color.lumenGreen, lineWidth: 2)
                         )
                         .padding(.top, 40)
                         .padding(.all, 8)
-                        .padding(.horizontal,8)
+                        .padding(.horizontal,6)
                         .sheet(isPresented: $showingAddTaskSheet) {
                             AddTaskSheetView(estimatedPomodoros: $estimatedPomodoros)
                         }
@@ -226,25 +225,27 @@ struct FocusView: View {
                     }
                     .padding()
                     
-                    HStack(spacing: 20) {
+                    HStack(spacing: 40) {
                         HStack {
                             Text("Pomos:")
                                 .font(.system(size: 14))
                                 .foregroundStyle(.gray)
-                            Text("5/5")
+                            Text("\(fetchedTasks.reduce(0) { $0 + $1.pomodoroDoneCount })/\(fetchedTasks.reduce(0) { $0 + $1.pomodoroCount })")
                                 .bold()
                         }
                         HStack {
                             Text("Tasks:")
                                 .foregroundStyle(.gray)
                                 .font(.system(size: 14))
-                            Text("10") 
-                            .bold()
+                            Text("\(fetchedTasks.count)")
+                                .bold()
                         }
                     }
-                    .padding(.all,6)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical,8)
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(8)
+                    .padding(.horizontal,26)
 
                 }
                 if showLottieAnimation {
@@ -360,7 +361,6 @@ struct FocusView: View {
         }
     }
 }
-
-#Preview {
-    FocusView()
-}
+    #Preview {
+        FocusView()
+    }
