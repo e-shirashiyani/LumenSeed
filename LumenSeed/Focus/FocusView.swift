@@ -17,7 +17,7 @@ struct FocusView: View {
     @State private var selectedTimer: Int = 25 * 60
     @State private var isActive: Bool = false
     @State private var showingAddTaskSheet = false
-    @State private var estimatedPomodoros = 0
+    @State private var estimatedPomodoros = 1
     @State private var taskName = "Time to focus!"
     @State private var showingSettings = false
     @State private var pomodoroTime: Int = 25 * 60
@@ -179,7 +179,7 @@ struct FocusView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .frame(height: 50)
-                        .background(Color.white) // Optional: Set a background color if needed
+                        .background(Color.white)
                         .cornerRadius(8)
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
@@ -187,6 +187,7 @@ struct FocusView: View {
                         )
                         .padding(.top, 40)
                         .padding(.all, 8)
+                        .padding(.horizontal,8)
                         .sheet(isPresented: $showingAddTaskSheet) {
                             AddTaskSheetView(estimatedPomodoros: $estimatedPomodoros)
                         }
@@ -224,6 +225,27 @@ struct FocusView: View {
                         .padding(.horizontal, 10)
                     }
                     .padding()
+                    
+                    HStack(spacing: 20) {
+                        HStack {
+                            Text("Pomos:")
+                                .font(.system(size: 14))
+                                .foregroundStyle(.gray)
+                            Text("5/5")
+                                .bold()
+                        }
+                        HStack {
+                            Text("Tasks:")
+                                .foregroundStyle(.gray)
+                                .font(.system(size: 14))
+                            Text("10") 
+                            .bold()
+                        }
+                    }
+                    .padding(.all,6)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(8)
+
                 }
                 if showLottieAnimation {
                     LottieView(filename: "finish")
