@@ -26,6 +26,7 @@ struct AddTaskSheetView: View {
             VStack(alignment: .leading, spacing: 20) {
                 Text("Project Name")
                 TextField("Enter task title", text: $taskTitle)
+                    .accessibilityIdentifier("EnterTaskTitle")
                     .padding()
                     .font(.title3)
                     .background(Color.gray.opacity(0.1))
@@ -33,6 +34,7 @@ struct AddTaskSheetView: View {
                 
                 Text("Description")
                 TextField("What are you working on?", text: $taskDescription)
+                    .accessibilityIdentifier("TaskDescription")
                     .padding()
                     .font(.title3)
                     .background(Color.gray.opacity(0.1))
@@ -46,6 +48,7 @@ struct AddTaskSheetView: View {
                         Text("\(estimatedPomodoros)")
                             .frame(minWidth: 36)
                     }
+                    .accessibilityIdentifier("PomodorosStepper")
                 }
                 .padding(.all, 4)
                 
@@ -66,6 +69,7 @@ struct AddTaskSheetView: View {
                         saveContext()
                         self.presentationMode.wrappedValue.dismiss()
                     }
+                    .accessibilityIdentifier("SaveButton")
                     .foregroundStyle(Color.lumenSecondary)
                 }
             }

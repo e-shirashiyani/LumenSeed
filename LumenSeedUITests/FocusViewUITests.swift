@@ -20,33 +20,39 @@ class FocusViewUITests: XCTestCase {
     }
     
     func testAddAndDeleteTask() throws {
-        // Navigate to FocusView
-        app.buttons["Focus"].tap()
-        
         // Add a new task
         app.buttons["Add Task"].tap()
-        let taskTitleField = app.textFields["Task Title"]
+        
+        let taskTitleField = app.textFields["EnterTaskTitle"]
+        XCTAssertTrue(taskTitleField.waitForExistence(timeout: 5), "Task title field does not exist")
         taskTitleField.tap()
         taskTitleField.typeText("New Task")
         
-        let pomodoroStepper = app.steppers["Pomodoros"]
-        pomodoroStepper.buttons["Increment"].tap()
-        pomodoroStepper.buttons["Increment"].tap()
+        // Increment pomodoros
+        let steppers = app.steppers["PomodorosStepper"]
+        XCTAssertTrue(steppers.waitForExistence(timeout: 5), "Pomodoro stepper does not exist")
         
-        app.buttons["Save"].tap()
+//        let incrementButton = steppers.buttons["Increment"]
+//        XCTAssertTrue(incrementButton.waitForExistence(timeout: 5), "Increment button does not exist")
+//        incrementButton.tap()
+//        incrementButton.tap()
+        
+        app.buttons["SaveButton"].tap()
         
         // Verify the task is added
         let newTask = app.staticTexts["New Task"]
-        XCTAssertTrue(newTask.exists)
+        XCTAssertTrue(newTask.waitForExistence(timeout: 5), "New task was not added")
         
         // Delete the new task
         newTask.swipeLeft()
         app.buttons["Delete"].tap()
         
         // Confirm deletion
-        app.alerts["Delete Task"].scrollViews.otherElements.buttons["Delete"].tap()
+        let deleteAlert = app.alerts["Delete Task"]
+        XCTAssertTrue(deleteAlert.waitForExistence(timeout: 5), "Delete alert did not appear")
+        deleteAlert.scrollViews.otherElements.buttons["Delete"].tap()
         
         // Verify the task is deleted
-        XCTAssertFalse(newTask.exists)
+        XCTAssertFalse(newTask.exists, "New task was not deleted")
     }
 }
