@@ -43,6 +43,7 @@
 		B87FE7012BD0445700EC1E85 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87FE7002BD0445700EC1E85 /* TagView.swift */; };
 		B87FE7032BD0448F00EC1E85 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87FE7022BD0448F00EC1E85 /* TagListView.swift */; };
 		B87FE7052BD0F74B00EC1E85 /* CapsuleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87FE7042BD0F74B00EC1E85 /* CapsuleButtonStyle.swift */; };
+		B88F0FF62C25E4B3002D833E /* EditTaskSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88F0FF52C25E4B3002D833E /* EditTaskSheetView.swift */; };
 		B8C329EE2BBFE18900C7CF8E /* PomodoroWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C329ED2BBFE18900C7CF8E /* PomodoroWarningView.swift */; };
 		B8C329F02BBFF06C00C7CF8E /* PomodoroDamageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C329EF2BBFF06C00C7CF8E /* PomodoroDamageView.swift */; };
 		B8C329F22BC1272900C7CF8E /* GardenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C329F12BC1272900C7CF8E /* GardenView.swift */; };
@@ -119,6 +120,7 @@
 		B87FE7002BD0445700EC1E85 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		B87FE7022BD0448F00EC1E85 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
 		B87FE7042BD0F74B00EC1E85 /* CapsuleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleButtonStyle.swift; sourceTree = "<group>"; };
+		B88F0FF52C25E4B3002D833E /* EditTaskSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskSheetView.swift; sourceTree = "<group>"; };
 		B8C329ED2BBFE18900C7CF8E /* PomodoroWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroWarningView.swift; sourceTree = "<group>"; };
 		B8C329EF2BBFF06C00C7CF8E /* PomodoroDamageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroDamageView.swift; sourceTree = "<group>"; };
 		B8C329F12BC1272900C7CF8E /* GardenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardenView.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				B87FE6AA2BCE876B00EC1E85 /* Shared */,
 				B87FE6A92BCE875900EC1E85 /* Focus */,
 				B87FE6A82BCE875400EC1E85 /* Task */,
+				B88F0FF42C25E4A9002D833E /* EditTask */,
 				B82DB3182BBDE7BB00E2D910 /* Preview Content */,
 			);
 			path = LumenSeed;
@@ -360,6 +363,14 @@
 				B87FE7022BD0448F00EC1E85 /* TagListView.swift */,
 			);
 			path = Tag;
+			sourceTree = "<group>";
+		};
+		B88F0FF42C25E4A9002D833E /* EditTask */ = {
+			isa = PBXGroup;
+			children = (
+				B88F0FF52C25E4B3002D833E /* EditTaskSheetView.swift */,
+			);
+			path = EditTask;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -512,6 +523,7 @@
 				B87FE6B72BCE892000EC1E85 /* TagSelectionView.swift in Sources */,
 				B87FE6B52BCE890F00EC1E85 /* Tag.swift in Sources */,
 				B8C32A0D2BC863EB00C7CF8E /* UsageView.swift in Sources */,
+				B88F0FF62C25E4B3002D833E /* EditTaskSheetView.swift in Sources */,
 				B8C32A012BC53AC400C7CF8E /* ItemDetailViewModel.swift in Sources */,
 				B8C32A152BCA5BCF00C7CF8E /* AppDelegate.swift in Sources */,
 				B82DB3432BBDF06300E2D910 /* TabBar+Ext.swift in Sources */,

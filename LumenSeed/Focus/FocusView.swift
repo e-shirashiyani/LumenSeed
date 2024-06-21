@@ -17,6 +17,7 @@ struct FocusView: View {
     @State private var selectedTimer: Int = 25 * 60
     @State private var isActive: Bool = false
     @State private var showingAddTaskSheet = false
+    @State private var showingEditTaskSheet = false
     @State private var estimatedPomodoros = 0
     @State private var taskName = "Time to focus!"
     @State private var showingSettings = false
@@ -33,6 +34,7 @@ struct FocusView: View {
     @State private var showContinueAndStopButtons: Bool = false
     @State private var showDeleteConfirmation: Bool = false
     @State private var taskToDelete: TaskEntity? = nil
+    @State private var selectedTask: TaskEntity? = nil
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var timerTypes: [(String, Int)] {
@@ -220,12 +222,17 @@ struct FocusView: View {
                                     self.estimatedPomodoros = Int(task.pomodoroCount)
                                     self.taskName = task.title ?? ""
                                     self.activeTaskID = task.id
+                                    self.selectedTask = task
+                                    self.showingEditTaskSheet = true
                                 }
                             }
                         }
                         .padding(.horizontal, 10)
                     }
                     .padding()
+                    .sheet(item: $selectedTask) { task in
+                                    EditTaskSheetView(task: task)
+                                }
                     
                     HStack(spacing: 40) {
                         HStack {
