@@ -11,8 +11,13 @@ import CoreData
 
 struct FocusView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(entity: TaskEntity.entity(), sortDescriptors: [])
-    private var fetchedTasks: FetchedResults<TaskEntity>
+    @FetchRequest(
+        entity: TaskEntity.entity(),
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \TaskEntity.isDone, ascending: true),
+            NSSortDescriptor(keyPath: \TaskEntity.title, ascending: true)
+        ]
+    ) private var fetchedTasks: FetchedResults<TaskEntity>
     
     @State private var selectedTimer: Int = 25 * 60
     @State private var isActive: Bool = false
@@ -231,8 +236,8 @@ struct FocusView: View {
                     }
                     .padding()
                     .sheet(item: $selectedTask) { task in
-                                    EditTaskSheetView(task: task)
-                                }
+                        EditTaskSheetView(task: task)
+                    }
                     
                     HStack(spacing: 40) {
                         HStack {
@@ -308,7 +313,6 @@ struct FocusView: View {
         let seconds = time % 60
         return String(format: "%02i:%02i", minutes, seconds)
     }
-    
     func startTimer() {
         if isActive {
             isActive = false
@@ -381,6 +385,6 @@ struct FocusView: View {
         }
     }
 }
-    #Preview {
-        FocusView()
-    }
+#Preview {
+    FocusView()
+}
