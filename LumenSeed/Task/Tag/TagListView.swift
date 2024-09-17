@@ -37,7 +37,7 @@ struct TagListView: View {
                 .padding(.all, 8)
                 .padding(.horizontal, 6)
                 .background(
-                    Capsule()
+                    RoundedRectangle(cornerRadius: 8)
                         .fill(Color.gray.opacity(0.1))
                 )
                 .accentColor(.blue)
@@ -45,7 +45,7 @@ struct TagListView: View {
                     TagSelectionView(tags: $tags, selectedTags: $selectedTags)
                         .presentationDetents([.medium])
                 }
-                .padding(.leading, 6)
+                .padding(.leading, 2)
             }
         }
     }

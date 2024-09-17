@@ -112,7 +112,8 @@ struct FocusView: View {
                             .fontWeight(.medium)
                             .foregroundStyle(Color.secondary)
                             .padding()
-                            .padding(.top)
+                            .padding(.top,8)
+                            .padding(.bottom,8)
                         
                         if showPauseButton {
                             Button(action: {
@@ -193,7 +194,7 @@ struct FocusView: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.lumenGreen, lineWidth: 2)
                         )
-                        .padding(.top, 40)
+                        .padding(.top, 15)
                         .padding(.all, 8)
                         .padding(.horizontal,6)
                         .sheet(isPresented: $showingAddTaskSheet) {

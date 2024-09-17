@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-
-import SwiftUI
 import CoreData
 
 struct EditTaskSheetView: View {
@@ -19,42 +17,41 @@ struct EditTaskSheetView: View {
         entity: TagEntity.entity(),
         sortDescriptors: []
     ) private var fetchedTags: FetchedResults<TagEntity>
-    
+
+    @State private var taskTitle: String = ""
+    @State private var taskDescription: String = ""
     @State private var selectedTags: Set<Tag> = []
     @State private var tags: [Tag] = []
+    @State private var pomodoroCount: Int32 = 1
 
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 20) {
-                Text("Project Name")
-                TextField("Enter task title", text: Binding(
-                    get: { task.title ?? "" },
-                    set: { task.title = $0 }
-                ))
-                    .padding()
-                    .font(.title3)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(8)
+                VStack(alignment: .leading) {
+                    Text("What would you like to do?")
+                    TextField("Enter task title", text: $taskTitle)
+                        .padding(.all, 10)
+                        .font(.title3)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+                }
+                .padding(.top)
 
-                Text("Description")
-                TextField("What are you working on?", text: Binding(
-                    get: { task.taskDescription ?? "" },
-                    set: { task.taskDescription = $0 }
-                ))
-                    .padding()
-                    .font(.title3)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(8)
+                VStack(alignment: .leading) {
+                    Text("Description")
+                    TextField("What are you working on?", text: $taskDescription)
+                        .padding(.all, 10)
+                        .font(.title3)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+                }
 
                 TagListView(selectedTags: $selectedTags, tags: $tags)
 
                 HStack {
                     Text("Est Pomodoros")
-                    Stepper(value: Binding(
-                        get: { Int(task.pomodoroCount) },
-                        set: { task.pomodoroCount = Int32($0) }
-                    ), in: 1...10) {
-                        Text("\(task.pomodoroCount)")
+                    Stepper(value: $pomodoroCount, in: 1...10) {
+                        Text("\(pomodoroCount)")
                             .frame(minWidth: 36)
                     }
                 }
@@ -62,28 +59,37 @@ struct EditTaskSheetView: View {
 
                 Spacer()
             }
-            .navigationBarTitle("Edit Task", displayMode: .inline)
+            .navigationBarTitle("Edit Seed", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
                         self.presentationMode.wrappedValue.dismiss()
                     }
-//                    .foregroundStyle(.gray)
+                    .foregroundStyle(.lumenSecondary)
                 }
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
+                        task.title = taskTitle
+                        task.taskDescription = taskDescription
+                        task.pomodoroCount = pomodoroCount
                         task.tagSet = selectedTags
                         saveContext()
                         self.presentationMode.wrappedValue.dismiss()
                     }
-                    .foregroundStyle(.gray)
+                    .foregroundColor(taskTitle.isEmpty ? .gray : Color.lumenSecondary)
+                    .disabled(taskTitle.isEmpty) 
                 }
             }
         }
         .padding()
         .onAppear {
-            fetchTags()
+            // Load existing task details into temporary variables
+            taskTitle = task.title ?? ""
+            taskDescription = task.taskDescription ?? ""
+            pomodoroCount = task.pomodoroCount
             loadSelectedTags()
+            fetchTags()
         }
     }
 

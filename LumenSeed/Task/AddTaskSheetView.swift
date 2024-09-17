@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import CoreData
 struct AddTaskSheetView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
@@ -24,22 +24,27 @@ struct AddTaskSheetView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 20) {
-                Text("Project Name")
-                TextField("Enter task title", text: $taskTitle)
-                    .accessibilityIdentifier("EnterTaskTitle")
-                    .padding()
-                    .font(.title3)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(8)
+                VStack(alignment: .leading) {
+                    Text("What would you like to do?")
+                    TextField("e.g.,Meeting With Alex", text: $taskTitle)
+                        .accessibilityIdentifier("EnterTaskTitle")
+                        .padding(.all,10)
+                        .font(.title3)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+                }
+                .padding(.top)
                 
-                Text("Description")
-                TextField("What are you working on?", text: $taskDescription)
-                    .accessibilityIdentifier("TaskDescription")
-                    .padding()
-                    .font(.title3)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(8)
-
+                VStack(alignment: .leading) {
+                    Text("Description")
+                    TextField("", text: $taskDescription)
+                        .accessibilityIdentifier("TaskDescription")
+                        .padding(.all,10)
+                        .font(.title3)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+                }
+                
                 TagListView(selectedTags: $selectedTags, tags: $tags)
                 
                 HStack {
@@ -54,7 +59,7 @@ struct AddTaskSheetView: View {
                 
                 Spacer()
             }
-            .navigationBarTitle("Task", displayMode: .inline)
+            .navigationBarTitle("Seed", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
@@ -70,7 +75,8 @@ struct AddTaskSheetView: View {
                         self.presentationMode.wrappedValue.dismiss()
                     }
                     .accessibilityIdentifier("SaveButton")
-                    .foregroundStyle(Color.lumenSecondary)
+                    .foregroundStyle(taskTitle.isEmpty ? .gray : Color.lumenSecondary)
+                    .disabled(taskTitle.isEmpty)
                 }
             }
         }
@@ -95,6 +101,4 @@ struct AddTaskSheetView: View {
     }
 }
 
-//#Preview {
-//    AddTaskSheetView(estimatedPomodoros: .constant(2), tasks: .constant([Task(title: "tesla", description: "implement button", status: "pending", tags: [], pomodoroCount: 2, pomodoroDoneCount: 0, isDone: false)]))
-//}
+
