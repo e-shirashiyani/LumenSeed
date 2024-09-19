@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		B819BBEE2C0E1E2C00B24644 /* SwipeableTaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B819BBED2C0E1E2C00B24644 /* SwipeableTaskCardView.swift */; };
 		B819BBF12C0E3F3500B24644 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B819BBF02C0E3F3400B24644 /* LottieView.swift */; };
-		B819BBF62C0E407E00B24644 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = B819BBF52C0E407E00B24644 /* Lottie */; };
 		B819BBFA2C0E437900B24644 /* finish.json in Resources */ = {isa = PBXBuildFile; fileRef = B819BBF92C0E437800B24644 /* finish.json */; };
 		B819BC112C11A1C600B24644 /* MyDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B819BC0F2C11A1C600B24644 /* MyDataModel.xcdatamodeld */; };
 		B819BC142C11A27B00B24644 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B819BC132C11A27B00B24644 /* PersistenceController.swift */; };
@@ -31,6 +30,7 @@
 		B82DB3502BBE8B0F00E2D910 /* ProgressCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82DB34F2BBE8B0E00E2D910 /* ProgressCircleView.swift */; };
 		B86DA3902C1AF42100F755E5 /* FocusViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86DA38F2C1AF42100F755E5 /* FocusViewTests.swift */; };
 		B86DA3922C1B019900F755E5 /* FocusViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86DA3912C1B019900F755E5 /* FocusViewUITests.swift */; };
+		B86F61532C9C76540073C7BA /* done.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B86F61522C9C76540073C7BA /* done.mp3 */; };
 		B87FE69C2BCC380400EC1E85 /* FocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87FE69B2BCC380300EC1E85 /* FocusView.swift */; };
 		B87FE69E2BCC39AF00EC1E85 /* AddTaskSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87FE69D2BCC39AF00EC1E85 /* AddTaskSheetView.swift */; };
 		B87FE6A02BCC67B800EC1E85 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87FE69F2BCC67B800EC1E85 /* Task.swift */; };
@@ -61,6 +61,7 @@
 		B8C32A172BCA6E4900C7CF8E /* PrimaryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C32A162BCA6E4900C7CF8E /* PrimaryButtonStyle.swift */; };
 		B8C32A192BCA6E6600C7CF8E /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C32A182BCA6E6600C7CF8E /* PointsView.swift */; };
 		B8C646782C1874F100CBF5AE /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C646772C1874F100CBF5AE /* UIColor+Ext.swift */; };
+		B8CCC1002C9A0A7200D8535E /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = B8CCC0FF2C9A0A7200D8535E /* Lottie */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		B82DB34F2BBE8B0E00E2D910 /* ProgressCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircleView.swift; sourceTree = "<group>"; };
 		B86DA38F2C1AF42100F755E5 /* FocusViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusViewTests.swift; sourceTree = "<group>"; };
 		B86DA3912C1B019900F755E5 /* FocusViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusViewUITests.swift; sourceTree = "<group>"; };
+		B86F61522C9C76540073C7BA /* done.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = done.mp3; sourceTree = "<group>"; };
 		B87FE69B2BCC380300EC1E85 /* FocusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusView.swift; sourceTree = "<group>"; };
 		B87FE69D2BCC39AF00EC1E85 /* AddTaskSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskSheetView.swift; sourceTree = "<group>"; };
 		B87FE69F2BCC67B800EC1E85 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
@@ -145,7 +147,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B819BBF62C0E407E00B24644 /* Lottie in Frameworks */,
+				B8CCC1002C9A0A7200D8535E /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +306,7 @@
 		B87FE6AC2BCE87E700EC1E85 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				B86F61522C9C76540073C7BA /* done.mp3 */,
 				B819BBF92C0E437800B24644 /* finish.json */,
 				B82DB3142BBDE7B900E2D910 /* Item.swift */,
 				B82DB3122BBDE7B900E2D910 /* ContentView.swift */,
@@ -391,7 +394,7 @@
 			);
 			name = LumenSeed;
 			packageProductDependencies = (
-				B819BBF52C0E407E00B24644 /* Lottie */,
+				B8CCC0FF2C9A0A7200D8535E /* Lottie */,
 			);
 			productName = LumenSeed;
 			productReference = B82DB30D2BBDE7B900E2D910 /* LumenSeed.app */;
@@ -484,6 +487,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B86F61532C9C76540073C7BA /* done.mp3 in Resources */,
 				B87FE6A62BCE693100EC1E85 /* bell.wav in Resources */,
 				B82DB31A2BBDE7BB00E2D910 /* Preview Assets.xcassets in Resources */,
 				B819BBFA2C0E437900B24644 /* finish.json in Resources */,
@@ -911,7 +915,7 @@
 			package = B819BBEF2C0E38C100B24644 /* XCRemoteSwiftPackageReference "lottie-spm" */;
 			productName = Lottie;
 		};
-		B819BBF52C0E407E00B24644 /* Lottie */ = {
+		B8CCC0FF2C9A0A7200D8535E /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B819BBEF2C0E38C100B24644 /* XCRemoteSwiftPackageReference "lottie-spm" */;
 			productName = Lottie;
