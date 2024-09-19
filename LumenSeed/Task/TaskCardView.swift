@@ -16,7 +16,7 @@ struct TaskCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
-                if task.pomodoroDoneCount >= task.pomodoroCount || task.isDone {
+                if (task.pomodoroCount != 0 && task.pomodoroDoneCount >= task.pomodoroCount) || task.isDone {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.green)
                         .frame(width: 14, height: 14)
@@ -33,7 +33,7 @@ struct TaskCardView: View {
                 
                 if let title = task.title {
                     Text("\(title)")
-                        .strikethrough(task.pomodoroDoneCount >= task.pomodoroCount || task.isDone, color: .gray)
+                        .strikethrough((task.pomodoroCount != 0 && task.pomodoroDoneCount >= task.pomodoroCount) || task.isDone, color: .gray)
                 }
                 
                 Spacer()
@@ -53,7 +53,7 @@ struct TaskCardView: View {
                 Text(taskDescription)
                     .font(.caption)
                     .foregroundColor(.gray)
-                    .strikethrough(task.pomodoroDoneCount >= task.pomodoroCount || task.isDone, color: .gray)
+                    .strikethrough((task.pomodoroCount != 0 && task.pomodoroDoneCount >= task.pomodoroCount) || task.isDone, color: .gray)
                     .padding(.leading, 20)
             }
             

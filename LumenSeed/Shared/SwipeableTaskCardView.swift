@@ -38,12 +38,12 @@ struct SwipeableTaskCardView: View {
                 .gesture(
                     DragGesture()
                         .onChanged { gesture in
-                            if gesture.translation.width < 0 {
+                            if gesture.translation.width < 0 { // Detect only left swipe
                                 self.offset = gesture.translation
                             }
                         }
                         .onEnded { _ in
-                            if self.offset.width < -100 {
+                            if self.offset.width < -80 { // Lower swipe threshold
                                 withAnimation {
                                     self.offset = .zero
                                     onDelete()

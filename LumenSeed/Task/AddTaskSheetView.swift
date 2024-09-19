@@ -46,7 +46,8 @@ struct AddTaskSheetView: View {
                 }
                 
                 TagListView(selectedTags: $selectedTags, tags: $tags)
-                
+                Text("Need a Focus Timer for This Task?")
+                    .padding(.top,8)
                 HStack {
                     Text("Est Pomodoros")
                     Stepper(value: $estimatedPomodoros, in: 1...10) {

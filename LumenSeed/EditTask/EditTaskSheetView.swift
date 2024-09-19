@@ -23,6 +23,7 @@ struct EditTaskSheetView: View {
     @State private var selectedTags: Set<Tag> = []
     @State private var tags: [Tag] = []
     @State private var pomodoroCount: Int32 = 1
+    @State private var showDeleteConfirmation = false // To show delete confirmation alert
 
     var body: some View {
         NavigationView {
@@ -47,7 +48,8 @@ struct EditTaskSheetView: View {
                 }
 
                 TagListView(selectedTags: $selectedTags, tags: $tags)
-
+                Text("Need a Focus Timer for This Task?")
+                    .padding(.top,8)
                 HStack {
                     Text("Est Pomodoros")
                     Stepper(value: $pomodoroCount, in: 1...10) {
@@ -55,9 +57,32 @@ struct EditTaskSheetView: View {
                             .frame(minWidth: 36)
                     }
                 }
-                .padding(.all, 4)
+//                .padding(.all, 4)
 
                 Spacer()
+
+                Button(action: {
+                    self.showDeleteConfirmation = true
+                }) {
+                    Text("Delete Task")
+                        .font(.subheadline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(.lumenRed)
+                        .cornerRadius(8)
+                }
+                .padding(.bottom, 10)
+                .alert(isPresented: $showDeleteConfirmation) {
+                    Alert(
+                        title: Text("Delete Task"),
+                        message: Text("Are you sure you want to delete this task? This action cannot be undone."),
+                        primaryButton: .destructive(Text("Delete")) {
+                            deleteTask()
+                        },
+                        secondaryButton: .cancel()
+                    )
+                }
             }
             .navigationBarTitle("Edit Seed", displayMode: .inline)
             .toolbar {
@@ -67,7 +92,7 @@ struct EditTaskSheetView: View {
                     }
                     .foregroundStyle(.lumenSecondary)
                 }
-                
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
                         task.title = taskTitle
@@ -78,7 +103,7 @@ struct EditTaskSheetView: View {
                         self.presentationMode.wrappedValue.dismiss()
                     }
                     .foregroundColor(taskTitle.isEmpty ? .gray : Color.lumenSecondary)
-                    .disabled(taskTitle.isEmpty) 
+                    .disabled(taskTitle.isEmpty)
                 }
             }
         }
@@ -102,6 +127,12 @@ struct EditTaskSheetView: View {
         }
     }
 
+    private func deleteTask() {
+        viewContext.delete(task) // Delete the task from the context
+        saveContext() // Save the deletion in Core Data
+        self.presentationMode.wrappedValue.dismiss() // Dismiss the sheet
+    }
+
     private func fetchTags() {
         let uniqueTags = Set(fetchedTags.map { Tag(id: $0.id!, name: $0.name!, color: $0.color!) })
         tags = Array(uniqueTags)
@@ -113,6 +144,36 @@ struct EditTaskSheetView: View {
         }
     }
 }
-//#Preview {
-//    EditTaskSheetView()
-//}
+
+struct EditTaskSheetView_Previews: PreviewProvider {
+    static var previews: some View {
+        // Create a sample TaskEntity for the preview using an in-memory Core Data context
+        let persistenceController = PersistenceController(inMemory: true)
+        let context = persistenceController.container.viewContext
+        
+        // Create a sample TaskEntity for the preview
+        let sampleTaskEntity = TaskEntity(context: context)
+        sampleTaskEntity.title = "Finish SwiftUI Tutorial"
+        sampleTaskEntity.taskDescription = "Complete the SwiftUI tutorial and review all concepts."
+        sampleTaskEntity.pomodoroCount = 4
+        
+        // Create some sample tags
+        let sampleTag = TagEntity(context: context)
+        sampleTag.name = "Urgent"
+        sampleTag.color = "#FF5733" // Example hex color
+        
+        sampleTaskEntity.tags = NSSet(array: [sampleTag])
+        
+        // Save the context to make sure the data is ready for preview
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save context in preview: \(error)")
+        }
+
+        return EditTaskSheetView(task: sampleTaskEntity)
+            .environment(\.managedObjectContext, context)
+            .previewLayout(.sizeThatFits)
+            .padding()
+    }
+}
